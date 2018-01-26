@@ -111,6 +111,7 @@ function vaciarCarrito() {
         cursosEnElCarrito .removeChild( cursosEnElCarrito .firstChild );    // Remueve los elementos hijos de la lista del carrito en el DOM
     }
 
+    vaciarLocalStorage();    
     return false;       // Evita el salto de los elementos
 }
 
@@ -184,4 +185,9 @@ function eliminarCursoLocalStorage( cursoId ) {
     });
 
     localStorage .setItem( 'cursos', JSON .stringify( cursosEnLocalStorage ) );   // Convierte el 'Array' a un 'String' y Actualiza los datos en el LocalStorage 
+}
+
+// Función que elimina completamente el LocalStorage
+function vaciarLocalStorage() {
+    localStorage .clear();
 }
