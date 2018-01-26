@@ -4,7 +4,8 @@
 /* Obtenemos los elementos del DOM donde vamos a agregar los cursos */   
 const carritoCompras = document .getElementById( 'carrito' ),          // Elemento Padre de 'lista-cursos'
       listaCursos    = document .getElementById( 'lista-cursos' ),     // Elemento hijo de 'carrito'
-      cursosEnElCarrito = document .querySelector( '#lista-carrito tbody' );    // Elemento donde se van a insertar los cursos al carrito
+      cursosEnElCarrito = document .querySelector( '#lista-carrito tbody' ),    // Elemento donde se van a insertar los cursos al carrito
+      botonVaciarCarrito = document . getElementById( 'vaciar-carrito' );       // Elemento botón con la clase 'vaciar-carrito' 
 
 /* Escucha los eventos */
 cargarEventos();                                                                                                                                                                                                                                                                                    
@@ -16,6 +17,8 @@ function cargarEventos() {
     // Dispara cuando se presiona la X en el listado de Cursos en el Carrito
     carritoCompras .addEventListener( 'click', eliminarCurso );     // Elimina Curso del Carrito
 
+    // Dispara cuando se presiona el botón de 'Vaciar Carrito' en el listado de Cursos del Carrito
+    botonVaciarCarrito .addEventListener( 'click', vaciarCarrito ); // Elimina todos los cursos del Carrito
 }
 
 // Función que agrega curso al carrito de compras                                                                                                                                                                                                                           
@@ -50,7 +53,7 @@ function leerDatosCurso( curso ) {
     insertarAlCarrito( infoCurso );
 }
 
-// Functión que muestra el curso seleccionado en el carrito
+// Functión que muestra el curso seleccionado en el carrito en el DOM
 function insertarAlCarrito( curso ) {
     const filaTabla = document .createElement( 'tr' );          // Crea elemento HTML 'tr'
 
@@ -70,7 +73,7 @@ function insertarAlCarrito( curso ) {
     cursosEnElCarrito .appendChild( filaTabla );
 }
 
-// Función que elimina curso del carrito de compras
+// Función que elimina curso del carrito de compras en el DOM
 function eliminarCurso( e ) {
     e .preventDefault();        // Previene la ejecución del 'action' definido en el formulario
  
@@ -83,4 +86,17 @@ function eliminarCurso( e ) {
         }
 
     console .groupEnd();
+}
+
+// Función que elimina todos los cursos del carrito de compras
+function vaciarCarrito() {
+ 
+    //cursosEnElCarrito .innerHTML = '';          // Forma Lenta
+
+    // Verifica si existen elementos dentro de la lista del carrito de compra en el DOM
+    while( cursosEnElCarrito .firstChild ) {    // Forma Rápida y recomendada
+        cursosEnElCarrito .removeChild( cursosEnElCarrito .firstChild );    // Remueve los elementos hijos de la lista del carrito en el DOM
+    }
+
+    return false;       // Evita el salto de los elementos
 }
