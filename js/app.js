@@ -11,7 +11,10 @@ cargarEventos();
 
 function cargarEventos() {
     // Dispara cuando se presiona 'Agregar carrito'
-    listaCursos .addEventListener( 'click', comprarCurso );
+    listaCursos .addEventListener( 'click', comprarCurso );         // Agrega Curso al Carrito
+
+    // Dispara cuando se presiona la X en el listado de Cursos en el Carrito
+    carritoCompras .addEventListener( 'click', eliminarCurso );     // Elimina Curso del Carrito
 
 }
 
@@ -65,4 +68,19 @@ function insertarAlCarrito( curso ) {
 
     // Insertamos el 'String Template' del curso en el DOM
     cursosEnElCarrito .appendChild( filaTabla );
+}
+
+// Función que elimina curso del carrito de compras
+function eliminarCurso( e ) {
+    e .preventDefault();        // Previene la ejecución del 'action' definido en el formulario
+ 
+    console .group( 'Eliminar Curso' );
+        console .log( 'e.target.classList ' , e .target .classList );
+
+        // Delegation: Valida si el elemento al que se le dió click contiene la clase 'borrar-curso'
+        if( e .target .classList .contains( 'borrar-curso' ) ) {
+            e .target .parentElement .parentElement .remove();      // Elimina estructura HTML del curso en el DOM
+        }
+
+    console .groupEnd();
 }
