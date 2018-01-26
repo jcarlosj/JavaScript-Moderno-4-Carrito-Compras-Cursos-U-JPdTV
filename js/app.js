@@ -69,8 +69,8 @@ function insertarAlCarrito( curso ) {
         </td>
     `;
 
-    // Insertamos el 'String Template' del curso en el DOM
-    cursosEnElCarrito .appendChild( filaTabla );
+    cursosEnElCarrito .appendChild( filaTabla );        // Insertamos el 'String Template' del curso en el DOM
+    guardarCursoLocalStorage( curso );
 }
 
 // Función que elimina curso del carrito de compras en el DOM
@@ -99,4 +99,28 @@ function vaciarCarrito() {
     }
 
     return false;       // Evita el salto de los elementos
+}
+
+// Función con la que se almacenan los cursos al carrito en el LocalStorage
+function guardarCursoLocalStorage( curso ) {
+    let cursos;
+
+    cursos = obtenerCursosLocalStorage();       // Obtenemos los Cursos del LocalStorage (Recibe un 'Array')
+    cursos .push( curso );                      // El curso seleccionado se agrega al 'Array'
+    localStorage .setItem( 'cursos', JSON .stringify( cursos ) );   // Convierte el 'Array' a un 'String' y Actualiza los datos en el LocalStorage 
+}
+
+// Función con la que comprueba que existan cursos en el LocalStorage (Retora un 'String')
+function obtenerCursosLocalStorage() {
+    let cursosEnLocalStorage;
+
+    // Verificamos si hay algo en el LocalStorage
+    if( localStorage .getItem( 'cursos' ) == null ) {
+        cursosEnLocalStorage = [];
+    }
+    else {
+        cursosEnLocalStorage = JSON .parse( localStorage .getItem( 'cursos' ) );    // Convierte de 'Array' a 'String' y almacena en el LocalStorage
+    }
+
+    return cursosEnLocalStorage;    
 }
