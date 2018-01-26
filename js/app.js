@@ -79,6 +79,9 @@ function insertarAlCarrito( curso ) {
 
 // Función que elimina curso del carrito de compras en el DOM
 function eliminarCurso( e ) {
+    let curso,
+        cursoId;
+
     e .preventDefault();        // Previene la ejecución del 'action' definido en el formulario
  
     console .group( 'Eliminar Curso' );
@@ -87,7 +90,13 @@ function eliminarCurso( e ) {
         // Delegation: Valida si el elemento al que se le dió click contiene la clase 'borrar-curso'
         if( e .target .classList .contains( 'borrar-curso' ) ) {
             e .target .parentElement .parentElement .remove();      // Elimina estructura HTML del curso en el DOM
+
+            curso = e .target .parentElement .parentElement;                    // Obtengo el 'tr' de la estructura HTML del curso en el DOM
+            cursoId = curso .querySelector( 'a' ) .getAttribute( 'data-id' );   // Obtengo el ID del curso del enlace
+            console .log( 'Eliminará con "data-id" ', cursoId );
         }
+
+        eliminarCursoLocalStorage( cursoId );        
 
     console .groupEnd();
 }
@@ -158,4 +167,21 @@ function leerLocalStorage() {
 
         
     });
+}
+
+// Función que elimina el curso por ID en el LocalStorage
+function eliminarCursoLocalStorage( cursoId ) {
+    let cursosEnLocalStorage;
+
+    cursosEnLocalStorage = obtenerCursosLocalStorage();         // Obtenemos los Cursos del LocalStorage (Recibe un 'Array')
+
+    // Recorre el 'Array' con los datos del LocalStorage
+    cursosEnLocalStorage .forEach( function( curso, index ) {
+        // Valida que el ID elegido para eliminar es igual al del 'Array'
+        if( curso.id === cursoId ) {
+            cursosEnLocalStorage .splice( index, 1 );           // Elimina el valor del indice indicado en el 'Array'
+        }
+    });
+
+    localStorage .setItem( 'cursos', JSON .stringify( cursosEnLocalStorage ) );   // Convierte el 'Array' a un 'String' y Actualiza los datos en el LocalStorage 
 }
