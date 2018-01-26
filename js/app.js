@@ -19,6 +19,9 @@ function cargarEventos() {
 
     // Dispara cuando se presiona el botón de 'Vaciar Carrito' en el listado de Cursos del Carrito
     botonVaciarCarrito .addEventListener( 'click', vaciarCarrito ); // Elimina todos los cursos del Carrito
+
+    // Dispara al cargarse totalmente el documento, para obtener todos los datos almacenados en el LocalStorage
+    document .addEventListener( 'DOMContentLoaded', leerLocalStorage ); 
 }
 
 // Función que agrega curso al carrito de compras                                                                                                                                                                                                                           
@@ -55,6 +58,7 @@ function leerDatosCurso( curso ) {
 
 // Functión que muestra el curso seleccionado en el carrito en el DOM
 function insertarAlCarrito( curso ) {
+    // Construir el Template
     const filaTabla = document .createElement( 'tr' );          // Crea elemento HTML 'tr'
 
     // Creamos un 'String Template' que queremos que se despliegue dentro del elemento creado 'tr'
@@ -123,4 +127,35 @@ function obtenerCursosLocalStorage() {
     }
 
     return cursosEnLocalStorage;    
+}
+
+// Función que obtiene los datos del LocalStorage y los muestra en el carrito de compras en el DOM
+function leerLocalStorage() {
+    let cursosEnLocalStorage;
+
+    cursosEnLocalStorage = obtenerCursosLocalStorage();
+
+    console .log( 'Cursos en el LocalStorage: ', cursosEnLocalStorage );
+
+    //
+    cursosEnLocalStorage .forEach( function( curso ) {
+        // Construir el Template
+        const filaTabla = document .createElement( 'tr' );          // Crea elemento HTML 'tr'
+
+        // Creamos un 'String Template' que queremos que se despliegue dentro del elemento creado 'tr'
+        filaTabla .innerHTML = `
+            <td>
+                <img src="${ curso .imagen }" width="120" />
+            </td>
+            <td>${ curso .titulo }</td>
+            <td>${ curso .precio }</td>
+            <td>
+                <a href="#" class="borrar-curso" data-id="${ curso .id }" >x</a>
+            </td>
+        `;
+
+        cursosEnElCarrito .appendChild( filaTabla );        // Insertamos el 'String Template' del curso en el DOM
+
+        
+    });
 }
